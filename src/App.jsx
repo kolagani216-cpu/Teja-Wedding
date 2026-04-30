@@ -199,7 +199,7 @@ function BrideGroomSection() {
             style={{ backgroundImage: "url('/Teja.jpeg')" }}
           />
           {/*<h3>Tribhuvana</h3>}*/}
-          <p className="nickname">Teja</p>
+          
           
         </article>
         <article className={`couple-card ${photoVisible ? 'photo-visible' : ''}`}>
@@ -207,9 +207,8 @@ function BrideGroomSection() {
             className="couple-photo"
             style={{ backgroundImage: "url('/Bishanth.jpeg')" }}
           />
-          <h3>Bishanth</h3>
-          <p className="nickname">Groom</p>
-          <p className="description">Groom - A man of strength, kindness, and devotion.</p>
+          
+         
         </article>
       </div>
     </section>
@@ -224,19 +223,19 @@ function PhotoStackSection() {
       <div className="stack-container">
         <article
           className="stack-card"
-          style={{ backgroundImage: "url('https://placehold.co/900x680?text=Our+Story+4')" }}
+          style={{ backgroundImage: "url('/Engagement-1.jpeg')" }}
         >
           <span>Memories unfolding</span>
         </article>
         <article
           className="stack-card"
-          style={{ backgroundImage: "url('https://placehold.co/900x680?text=Our+Story+5')" }}
+          style={{ backgroundImage: "url('7529.jpg.jpeg')" }}
         >
           <span>Closer together</span>
         </article>
         <article
           className="stack-card"
-          style={{ backgroundImage: "url('https://placehold.co/900x680?text=Our+Story+6')" }}
+          style={{ backgroundImage: "url('7667.jpeg')" }}
         >
           <span>Forever begins</span>
         </article>
