@@ -115,10 +115,10 @@ function Hero() {
       <div className="hero-content">
         <p className="hero-label">You are invited</p>
         <h1>Tribhuvana & Bishanth</h1>
-        <p className="hero-subtitle">Join us for a celebration of love and togetherness.</p>
+        <p className="hero-subtitle">Join us for a celebration of Tribhuvana and Bishanth's Marriage.</p>
         <div className="hero-details">
           <span>May 09, 2026</span>
-          <span>SVL Arena</span>
+          <span>SVL Arena, L.B Nagar, Hyderabad</span>
         </div>
       </div>
     </header>
