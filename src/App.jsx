@@ -131,7 +131,8 @@ function IntroSection() {
     <section className="section intro">
       <div>
         <h2>Our story</h2>
-        <p>Sample moments appear below as photo placeholders. Replace them later with your own wedding memories.</p>
+        <p>They met once, and in that first moment something quietly clicked between them.
+Days turned into nights filled with messages, laughter, and shared thoughts.</p>
       </div>
       <Countdown />
     </section>
