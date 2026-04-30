@@ -295,6 +295,33 @@ body {
   text-align: center;
   position: relative;
   height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.couple-name {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 100%;
+  padding: 20px;
+}
+
+.couple-name h3 {
+  margin: 0 0 8px;
+  font-size: 1.8rem;
+  color: #3b2922;
+  font-weight: 600;
+}
+
+.couple-name .nickname {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #b46258;
+  font-weight: 500;
 }
 
 .couple-photo {
@@ -312,34 +339,6 @@ body {
 
 .couple-card.photo-visible .couple-photo {
   opacity: 1;
-}
-
-.couple-card h3,
-.couple-card .nickname,
-.couple-card .description {
-  position: relative;
-  z-index: 2;
-}
-
-.couple-card h3 {
-  margin: 16px 0 4px;
-  font-size: 1.2rem;
-  color: #3b2922;
-}
-
-.couple-card .nickname {
-  margin: 0 0 12px;
-  font-size: 0.9rem;
-  color: #b46258;
-  font-weight: 600;
-}
-
-.couple-card .description {
-  margin: 0;
-  padding: 0 16px 16px;
-  color: #5c4f49;
-  font-size: 0.95rem;
-  line-height: 1.5;
 }
 
 .rsvp {
@@ -432,31 +431,36 @@ button:hover {
 }
 
 .photo-stack .stack-container {
+  display: grid;
+  grid-template-columns: 1fr;
   position: relative;
+  height: 420px;
+  perspective: 1000px;
 }
 
-
-/* ✅ Force stacked scroll on mobile also */
+/* Stack cards positioned absolutely for stacking effect */
 .stack-card {
-  position: sticky;
-  top: 80px;            /* mobile-friendly top */
-  min-height: 70vh;     /* tall photos on mobile */
-  margin-bottom: -45vh; /* overlap so stacking works */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 420px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-color: #ead2c5;
+  display: flex;
+  align-items: flex-end;
+  box-shadow: 0 12px 32px rgba(90, 65, 53, 0.12);
+  will-change: transform;
 }
 
-/* ✅ Desktop tuning (keeps it elegant) */
-@media (min-width: 768px) {
-  .stack-card {
-    top: 120px;
-    min-height: 420px;
-    margin-bottom: -160px;
-  }
-}
-
-/* ✅ Ensure last image is fully visible */
-.photo-stack .stack-container {
-  padding-bottom: 60vh;
-}
+/* Set initial z-index for stacking order */
+.stack-card-1 { z-index: 3; }
+.stack-card-2 { z-index: 2; }
+.stack-card-3 { z-index: 1; }
 
 .stack-card span {
   width: 100%;
@@ -467,9 +471,28 @@ button:hover {
   font-size: 1rem;
   font-weight: 700;
 }
-.stack-card:nth-child(1) { z-index: 3; }
-.stack-card:nth-child(2) { z-index: 2; }
-.stack-card:nth-child(3) { z-index: 1; }
+
+/* Mobile responsiveness */
+@media (max-width: 767px) {
+  .photo-stack .stack-container {
+    height: 340px;
+  }
+  
+  .stack-card {
+    height: 340px;
+  }
+}
+
+/* Desktop responsiveness */
+@media (min-width: 768px) {
+  .photo-stack .stack-container {
+    height: 450px;
+  }
+  
+  .stack-card {
+    height: 450px;
+  }
+}
 
 
 @media (min-width: 640px) {

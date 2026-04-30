@@ -172,16 +172,22 @@ function DetailsSection() {
 
 // Bride and Groom Section Component
 function BrideGroomSection() {
-  const [photoVisible, setPhotoVisible] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const sectionRef = React.useRef(null);
+  const cardRefsRef = React.useRef([]);
 
   useEffect(() => {
     const handleScroll = () => {
-      const section = document.querySelector('.bride-groom');
+      const section = sectionRef.current;
       if (section) {
         const rect = section.getBoundingClientRect();
-        if (rect.top < window.innerHeight - 100) {
-          setPhotoVisible(true);
-        }
+        const windowHeight = window.innerHeight;
+
+        // Calculate scroll progress: 0 when section enters viewport, 1 when it's in the middle
+        const triggerPoint = windowHeight * 0.75;
+        const progress = Math.max(0, Math.min(1, (triggerPoint - rect.top) / (windowHeight * 0.5)));
+
+        setScrollProgress(progress);
       }
     };
 
@@ -189,26 +195,58 @@ function BrideGroomSection() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Calculate animation values based on scroll progress
+  // 0-0.5: names fade in (opacity 0 to 1)
+  // 0.5-1: names fade out & move up, photos fade in
+  const nameOpacity = scrollProgress < 0.5 ? scrollProgress * 2 : Math.max(0, 1 - (scrollProgress - 0.5) * 2);
+  const photoOpacity = scrollProgress < 0.5 ? 0 : (scrollProgress - 0.5) * 2;
+  const nameTransform = scrollProgress < 0.5 ? 0 : (scrollProgress - 0.5) * 2 * 30;
+
   return (
-    <section className="section bride-groom">
+    <section className="section bride-groom" ref={sectionRef}>
       <h2>Our Love Story</h2>
       <div className="couple-grid">
-        <article className={`couple-card ${photoVisible ? 'photo-visible' : ''}`}>
+        <article className="couple-card">
+          <div
+            className="couple-name"
+            style={{
+              opacity: nameOpacity,
+              transform: `translateY(-${nameTransform}px)`,
+              transition: 'none'
+            }}
+          >
+            <h3>Tribhuvana</h3>
+            <p className="nickname">(Teja)</p>
+          </div>
           <div
             className="couple-photo"
-            style={{ backgroundImage: "url('/Teja.jpeg')" }}
+            style={{
+              backgroundImage: "url('/Teja.jpeg')",
+              opacity: photoOpacity,
+              transition: 'none'
+            }}
           />
-          {/*<h3>Tribhuvana</h3>}*/}
-          
-          
         </article>
-        <article className={`couple-card ${photoVisible ? 'photo-visible' : ''}`}>
+        <article className="couple-card">
+          <div
+            className="couple-name"
+            style={{
+              opacity: nameOpacity,
+              transform: `translateY(-${nameTransform}px)`,
+              transition: 'none'
+            }}
+          >
+            <h3>Bishanth</h3>
+            <p className="nickname">Groom</p>
+          </div>
           <div
             className="couple-photo"
-            style={{ backgroundImage: "url('/Bishanth.jpeg')" }}
+            style={{
+              backgroundImage: "url('/Bishanth.jpeg')",
+              opacity: photoOpacity,
+              transition: 'none'
+            }}
           />
-          
-         
         </article>
       </div>
     </section>
@@ -217,25 +255,96 @@ function BrideGroomSection() {
 
 // Photo Stack Section Component
 function PhotoStackSection() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const sectionRef = React.useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const section = sectionRef.current;
+      if (section) {
+        const rect = section.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        // Calculate scroll progress: 0 when section enters, 1 when section is fully scrolled
+        const triggerPoint = windowHeight * 0.75;
+        const progress = Math.max(0, Math.min(1, (triggerPoint - rect.top) / (windowHeight * 1.2)));
+
+        setScrollProgress(progress);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Calculate translateY for each card to show one at a time
+  // Card 1: visible at start, moves up as progress increases
+  // Card 2: comes in from bottom, replaces card 1, then moves up
+  // Card 3: comes in from bottom, replaces card 2
+  const getCardTransform = (cardIndex) => {
+    const cardHeight = 420;
+    
+    if (cardIndex === 0) {
+      // Card 1: starts at 0, moves up during 0-0.33, stays up after
+      if (scrollProgress < 0.33) {
+        return -(scrollProgress / 0.33) * cardHeight;
+      } else {
+        return -cardHeight;
+      }
+    } else if (cardIndex === 1) {
+      // Card 2: comes in from bottom during 0-0.33, visible during 0.33-0.66
+      if (scrollProgress < 0.33) {
+        const stageProg = scrollProgress / 0.33;
+        return cardHeight - stageProg * cardHeight;
+      } else if (scrollProgress < 0.66) {
+        const stageProg = (scrollProgress - 0.33) / 0.33;
+        return -(stageProg * cardHeight);
+      } else {
+        return -cardHeight;
+      }
+    } else if (cardIndex === 2) {
+      // Card 3: stays below during 0-0.66, comes in from bottom during 0.66+
+      if (scrollProgress < 0.66) {
+        return cardHeight;
+      } else {
+        const stageProg = (scrollProgress - 0.66) / 0.34;
+        return cardHeight - stageProg * cardHeight;
+      }
+    }
+    return 0;
+  };
+
   return (
-    <section className="section photo-stack">
+    <section className="section photo-stack" ref={sectionRef}>
       <h2>Photo journey</h2>
       <div className="stack-container">
         <article
-          className="stack-card"
-          style={{ backgroundImage: "url('/Engagement-1.jpeg')" }}
+          className="stack-card stack-card-1"
+          style={{
+            backgroundImage: "url('/Engagement-1.jpeg')",
+            transform: `translateY(${getCardTransform(0)}px)`,
+            transition: 'none'
+          }}
         >
           <span>Memories unfolding</span>
         </article>
         <article
-          className="stack-card"
-          style={{ backgroundImage: "url('7529.jpg.jpeg')" }}
+          className="stack-card stack-card-2"
+          style={{
+            backgroundImage: "url('7529.jpg.jpeg')",
+            transform: `translateY(${getCardTransform(1)}px)`,
+            transition: 'none'
+          }}
         >
           <span>Closer together</span>
         </article>
         <article
-          className="stack-card"
-          style={{ backgroundImage: "url('7667.jpeg')" }}
+          className="stack-card stack-card-3"
+          style={{
+            backgroundImage: "url('7667.jpeg')",
+            transform: `translateY(${getCardTransform(2)}px)`,
+            transition: 'none'
+          }}
         >
           <span>Forever begins</span>
         </article>
