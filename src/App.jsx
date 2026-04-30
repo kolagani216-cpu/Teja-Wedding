@@ -331,7 +331,8 @@ function PhotoStackSection() {
         <article
           className="stack-card stack-card-2"
           style={{
-            backgroundImage: "url('7529.jpg.jpeg')",
+            backgroundImage: "url('7667.JPEG')",
+            
             transform: `translateY(${getCardTransform(1)}px)`,
             transition: 'none'
           }}
@@ -341,7 +342,8 @@ function PhotoStackSection() {
         <article
           className="stack-card stack-card-3"
           style={{
-            backgroundImage: "url('7667.jpeg')",
+            backgroundImage: "url('7529.JPG.jpeg')",
+            backgroundPosition: 'center top',
             transform: `translateY(${getCardTransform(2)}px)`,
             transition: 'none'
           }}
