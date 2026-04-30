@@ -198,9 +198,9 @@ function BrideGroomSection() {
             className="couple-photo"
             style={{ backgroundImage: "url('/Teja.jpeg')" }}
           />
-          <h3>Tribhuvana</h3>
+          {/*<h3>Tribhuvana</h3>}*/}
           <p className="nickname">Teja</p>
-          <p className="description">Bride - A woman of grace, elegance, and warmth.</p>
+          
         </article>
         <article className={`couple-card ${photoVisible ? 'photo-visible' : ''}`}>
           <div
